@@ -15,17 +15,21 @@ This script requires Elixir. Installation instructions can be [found here.](http
 
 ##Usage
 To add a key to all servers:
+
 `elixir pk_boss.exs --add "key here"`
 
 To remove a key from all servers:
+
 `elixir pk_boss.exs --remove "key here"`
 
 To add a key to one or more servers:
 - Manually add the key to the file(s)
 - Push all auth_key files to the servers:
+
 `elixir pk_boss.exs --deploy-all`
 
 To view help:
+
 `elixir pk_boss.exs h`
 
 ##To do
@@ -33,6 +37,7 @@ To view help:
 
 ##Contributors
 [@dtcristo](https://github.com/dtcristo)
-[Jayzz55](https://github.com/Jayzz55)
+
+[@Jayzz55](https://github.com/Jayzz55)
 
 
