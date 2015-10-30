@@ -33,7 +33,8 @@ To view help:
 `elixir pk_boss.exs h`
 
 ##To do
-- Add and remove a key from one or more auth key files
+- add verbosity
+- get path based on absolute path to files
 
 ##Contributors
 [@dtcristo](https://github.com/dtcristo)
