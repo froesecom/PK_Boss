@@ -1,7 +1,6 @@
 defmodule PKBoss do
   @remote_auth_keys_path "/remote/path/to/auth_keys/file"
-  #@local_auth_keys_dir "/local/path/to/pk_boss/auth_keys/dir"
-  @local_auth_keys_dir "/auth_keys/"
+  @local_auth_keys_dir "/local/path/to/pk_boss/auth_keys/dir"
   @remote_user "root"
   @instructions "To add key: elixir pk_boss.exs --add \"auth_key\"\nTo add key in particular servers: elixir pk_boss.exs --add \"auth_key\" --servers \"ip.address.1, ip.address.2\"\nTo remove key: elixir pk_boss.exs --remove \"auth_key\"\nTo remove key in particular servers: elixir pk_boss.exs --remove \"auth_key\" --servers \"ip.address.1, ip.address.2\"\nTo deploy all auth key files: elixir pk_boss.exs --deploy-all"
 
