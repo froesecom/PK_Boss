@@ -2,10 +2,10 @@ defmodule PKBoss do
   @remote_auth_keys_path "/remote/path/to/auth_keys/file"
   @local_auth_keys_dir "/local/path/to/pk_boss/auth_keys/dir"
   @remote_user "root"
-  @instructions "To add key: elixir pk_boss.exs --add \"auth_key\"\nTo remove key: elixir pk_boss.exs --remove \"auth_key\"\nTo deploy all auth key files: elixir pk_boss.exs --deploy-all"
+  @instructions "To add key: elixir pk_boss.exs --add \"auth_key\"\nTo add key in particular servers: elixir pk_boss.exs --add \"auth_key\" --servers \"ip.address.1, ip.address.2\"\nTo remove key: elixir pk_boss.exs --remove \"auth_key\"\nTo remove key in particular servers: elixir pk_boss.exs --remove \"auth_key\" --servers \"ip.address.1, ip.address.2\"\nTo deploy all auth key files: elixir pk_boss.exs --deploy-all"
 
   def main do
-    {options, values, _} = OptionParser.parse(System.argv, strict: [deploy_all: :boolean, remove: :boolean, add: :boolean])
+    {options, values, _} = OptionParser.parse(System.argv, strict: [deploy_all: :boolean, remove: :boolean, add: :boolean, servers: :boolean])
     
     current_path = System.cmd("pwd", [])
                    |> elem(0) 
@@ -16,11 +16,17 @@ defmodule PKBoss do
     case {options, values} do
       {[], ["h"]} -> IO.puts @instructions
       {[deploy_all: true], []} -> deploy_all(files_list, path)
-      {[add: true], [ssh_key]} -> add_user_key(ssh_key, files_list, path)
-      {[remove: true], [ssh_key]} -> remove_user_key(ssh_key, files_list, path)
+      {[add: true, servers: false], [ssh_key, _]} -> add_user_key(ssh_key, files_list, path)
+      {[add: true, servers: true], [ssh_key, servers]} -> add_user_key(ssh_key, parse_servers(servers), path)
+      {[remove: true, servers: false], [ssh_key, _]} -> remove_user_key(ssh_key, files_list, path)
+      {[remove: true, servers: true], [ssh_key, servers]} -> remove_user_key(ssh_key, parse_servers(servers), path)
       {[], _} -> IO.puts "Unrecognized input.\n#{@instructions}"
     end
 
+  end
+
+  def parse_servers(servers) do
+    servers |> String.split(",") |> Enum.map( &(String.strip(&1)))
   end
 
   def empty?(""), do: true
