@@ -14,26 +14,40 @@ This script requires Elixir. Installation instructions can be [found here.](http
 ```
 
 ##Usage
-To add a key to all servers:
+
+### To add a key to all servers:
 
 `elixir pk_boss.exs --add "key here"`
 
-To remove a key from all servers:
+### To remove a key from all servers:
 
 `elixir pk_boss.exs --remove "key here"`
 
-To add a key to one or more servers:
-- Manually add the key to the file(s)
+### To add/remove a key to one or more servers:
+
+#### 1. Manual
+- Manually modify the key to the file(s)
 - Push all auth_key files to the servers:
 
 `elixir pk_boss.exs --deploy-all`
+
+#### 2. Command line
+
+- add key to particular servers
+
+`elixir pk_boss.exs --add "key here" --servers "server 1, server 2"`
+
+- add key to particular servers
+ 
+`elixir pk_boss.exs --remove "key here" --servers "server 1, server 2"`
 
 To view help:
 
 `elixir pk_boss.exs h`
 
 ##To do
-- Add and remove a key from one or more auth key files
+- add verbosity
+- get path based on absolute path to files
 
 ##Contributors
 [@dtcristo](https://github.com/dtcristo)
