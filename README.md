@@ -28,14 +28,17 @@ This script requires Elixir. Installation instructions can be [found here.](http
 #### 1. Manual
 - Manually modify the key to the file(s)
 - Push all auth_key files to the servers:
+
 `elixir pk_boss.exs --deploy-all`
 
 #### 2. Command line
 
 - add key to particular servers
+
 `elixir pk_boss.exs --add "key here" --servers "server 1, server 2"`
 
 - add key to particular servers
+ 
 `elixir pk_boss.exs --remove "key here" --servers "server 1, server 2"`
 
 To view help:
