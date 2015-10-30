@@ -14,23 +14,28 @@ This script requires Elixir. Installation instructions can be [found here.](http
 ```
 
 ##Usage
-To add a key to all servers:
+
+### To add a key to all servers:
 
 `elixir pk_boss.exs --add "key here"`
 
-To remove a key from all servers:
+### To remove a key from all servers:
 
 `elixir pk_boss.exs --remove "key here"`
 
-To add/remove a key to one or more servers:
+### To add/remove a key to one or more servers:
+
+#### 1. Manual
 - Manually modify the key to the file(s)
 - Push all auth_key files to the servers:
-
 `elixir pk_boss.exs --deploy-all`
 
-- Or run the following command to add or remove keys:
+#### 2. Command line
 
+- add key to particular servers
 `elixir pk_boss.exs --add "key here" --servers "server 1, server 2"`
+
+- add key to particular servers
 `elixir pk_boss.exs --remove "key here" --servers "server 1, server 2"`
 
 To view help:
