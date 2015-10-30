@@ -5,7 +5,7 @@ defmodule PKBoss do
   @instructions "To add key: elixir pk_boss.exs --add \"auth_key\"\nTo add key in particular servers: elixir pk_boss.exs --add \"auth_key\" --servers \"ip.address.1, ip.address.2\"\nTo remove key: elixir pk_boss.exs --remove \"auth_key\"\nTo remove key in particular servers: elixir pk_boss.exs --remove \"auth_key\" --servers \"ip.address.1, ip.address.2\"\nTo deploy all auth key files: elixir pk_boss.exs --deploy-all"
 
   def main do
-    {options, values, _} = OptionParser.parse(System.argv, strict: [deploy_all: :boolean, remove: :boolean, add: :boolean, servers: :boolean, verbose: :boolean])
+    {options, values, _} = OptionParser.parse(System.argv, strict: [deploy_all: :boolean, remove: :boolean, add: :boolean, servers: :boolean])
     
     current_path = System.cmd("pwd", [])
                    |> elem(0) 
@@ -66,8 +66,6 @@ defmodule PKBoss do
     |> Enum.reject(&empty?(&1))
     |> Enum.map(&read_keys(&1, path))
   
-    IO.puts @verbose
-    
     case {action} do
       {:add} -> 
         servers_keys
