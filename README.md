@@ -22,11 +22,16 @@ To remove a key from all servers:
 
 `elixir pk_boss.exs --remove "key here"`
 
-To add a key to one or more servers:
-- Manually add the key to the file(s)
+To add/remove a key to one or more servers:
+- Manually modify the key to the file(s)
 - Push all auth_key files to the servers:
 
 `elixir pk_boss.exs --deploy-all`
+
+- Or run the following command to add or remove keys:
+
+`elixir pk_boss.exs --add "key here" --servers "server 1, server 2"`
+`elixir pk_boss.exs --remove "key here" --servers "server 1, server 2"`
 
 To view help:
 
