@@ -16,9 +16,9 @@ defmodule PKBoss do
     case {options, values} do
       {[], ["h"]} -> IO.puts @instructions
       {[deploy_all: true], []} -> deploy_all(files_list, path)
-      {[add: true, servers: false], [ssh_key, _]} -> add_user_key(ssh_key, files_list, path)
+      {[add: true], [ssh_key]} -> add_user_key(ssh_key, files_list, path)
       {[add: true, servers: true], [ssh_key, servers]} -> add_user_key(ssh_key, parse_servers(servers), path)
-      {[remove: true, servers: false], [ssh_key, _]} -> remove_user_key(ssh_key, files_list, path)
+      {[remove: true], [ssh_key]} -> remove_user_key(ssh_key, files_list, path)
       {[remove: true, servers: true], [ssh_key, servers]} -> remove_user_key(ssh_key, parse_servers(servers), path)
       {[], _} -> IO.puts "Unrecognized input.\n#{@instructions}"
     end
@@ -50,12 +50,32 @@ defmodule PKBoss do
 
   # This is to prepend a key into the authorized_keys file if the key doesn't exist inside the file yet
   def add_user_key(ssh_key, files_list, path) do
+    log(files_list, path, ssh_key, :add)
+
     files_list
     |> Enum.reject(&empty?(&1))
     |> Enum.map(&read_keys(&1, path))
     |> Enum.reject(&contains?(elem(&1,1), ssh_key))
     |> Enum.map(&prepend_key(&1, ssh_key, path))
     |> Enum.map(&scp_to_server(&1, path))
+  end
+
+  # This is to log out into console whether the server already contain key or clear of key
+  def log(files_list, path, ssh_key, action) do
+    servers_keys = files_list
+    |> Enum.reject(&empty?(&1))
+    |> Enum.map(&read_keys(&1, path))
+  
+    case {action} do
+      {:add} -> 
+        servers_keys
+        |> Enum.filter(&contains?(elem(&1,1), ssh_key))
+        |> Enum.map(&(IO.puts "#{elem(&1,0)} already contains the key #{ssh_key}"))
+      {:remove} ->
+        servers_keys
+        |> Enum.reject(&contains?(elem(&1,1), ssh_key))
+        |> Enum.map(&(IO.puts "#{elem(&1,0)} already clear of the key #{ssh_key}"))
+    end
   end
 
   # This prepend ssh_key inside the specified authorized_keys file
@@ -65,11 +85,13 @@ defmodule PKBoss do
     {:ok, file} = File.open "#{path}/#{file_path}", [:write]
     IO.binwrite file, new_content
     File.close file
+    IO.puts "Successfully add key #{key} into #{file_path}"
     file_path
   end
 
   # This is to remove a key in the authorized_keys file if the key does exist inside the file
   def remove_user_key(ssh_key, files_list, path) do
+    log(files_list, path, ssh_key, :remove)
 
     files_list
     |> Enum.reject(&empty?(&1))
@@ -89,6 +111,7 @@ defmodule PKBoss do
     {:ok, file} = File.open "#{path}/#{file_path}", [:write]
     IO.binwrite file, new_content
     File.close file
+    IO.puts "Successfully remove key #{key} from #{file_path}"
     file_path
   end
 

@@ -46,8 +46,8 @@ To view help:
 `elixir pk_boss.exs h`
 
 ##To do
-- add verbosity
 - get path based on absolute path to files
+- add testing
 
 ##Contributors
 [@dtcristo](https://github.com/dtcristo)
